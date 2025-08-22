@@ -18,9 +18,12 @@ class User(AbstractUser):
         (ROLE_LEAD, "Lead"),
         (ROLE_MANAGER, "Manager"),
     ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=ROLE_USER)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="User")
     manager = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name="subordinates")
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL, related_name="members")
 
-    def is_manager(self): return self.role == self.ROLE_MANAGER
-    def is_lead(self): return self.role == self.ROLE_LEAD
+    def is_manager(self):
+        return self.role == "Manager"
+
+    def is_lead(self):
+        return self.role == "Lead"
